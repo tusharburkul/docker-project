@@ -1,0 +1,26 @@
+version: '3.3'
+services:
+    database:
+        image: mysql:5.7
+        volumes:
+                - db_data:/var/lib/mysql:rw
+        restart: always
+        environment:
+            - MYSQL_ROOT_PASSWORD=devops@123
+            - MYSQL_DATABASE=employee
+            - MYSQL_USER=devops
+            - MYSQL_PASSWORD=devops@123
+    wordpress:
+        depends_on:
+           - database 
+        image: wordpress:latest
+        ports:
+          - "9091:80"
+        restart: always
+        environment:
+          - WORDPRESS_DB_HOST=database:3306
+          - WORDPRESS_DB_USER=devops
+          - WORDPRESS_DB_PASSWORD=devops@123
+          - WORDPRESS_DB_NAME=employee
+volumes:
+        db_data:
